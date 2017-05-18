@@ -1,0 +1,306 @@
+html {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.help-scrollbarV {
+	cursor: pointer;
+	pointer-events: auto !important;
+}
+ 
+.help-scrollbarV > div {
+	cursor: pointer;
+	pointer-events: auto !important;
+}
+
+.main-screen {
+	position: relative;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	height: 559px;
+}
+
+.main-screen.has-directions-audio #directions-audio-btn {
+	position: absolute;
+	display: block;
+	left: 20px;
+	top: 10px;
+	width: 40px;
+	height: 40px;
+	background: url('../img/audio_btn_small.png') no-repeat 0 0;
+	cursor: pointer;
+}
+
+html.no-touch .main-screen.has-directions-audio:not(.feedback) #directions-audio-btn:hover {
+	background-position: 0 -40px;
+}
+
+.directions {
+	position: absolute;
+	left: 20px;
+	top: 10px;
+	width: 980px;
+	height: 48px;
+	line-height: 24px;
+	font-size: 22px;
+	padding: 0;
+	color: #000000;
+	cursor: default;
+}
+
+.main-screen.has-directions-audio .directions {
+	left: 70px;
+	width: 900px;
+}
+
+#target-bins {
+	position: absolute;
+	left: 7px;
+	right: 7px;
+	top: 59px;
+	bottom: 237px;
+}
+
+.target-bin {
+	position: relative;
+	float: left;
+	width: 190px;
+	height: 100%;
+	margin-right: 5px;
+}
+
+.target-bin:last-child {
+	margin-right: 0;
+}
+
+.target-bin-head {
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+	padding: 10px 5px 5px;
+}
+
+.target-bin-head > .audio-btn {
+	display: inline-block;
+	vertical-align: middle;
+	width: 40px;
+	height: 40px;
+	background: url('../img/audio_btn_small.png') no-repeat 0 0;
+	cursor: pointer;
+}
+
+html.no-touch .main-screen:not(.feedback) .target-bin-head > .audio-btn:hover {
+	background-position: 0 -40px;
+}
+
+.target-bin-head > .title-image {
+	display: inline-block;
+	vertical-align: middle;
+	width: 100px;
+	height: 100px;
+	line-height: 100px;
+	background-color: #fff;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+.target-bin-head > .title-text p {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+.target-bin > .drop-zone {
+	position: absolute;
+	text-align: center;
+	line-height: 0px; /* important for drag-source removal animation */
+	top: 100px;
+	left: 5px;
+	right: 5px;
+	bottom: 5px;
+/*	border: 1px dashed red;*/
+}
+
+#source-bin {
+	position: absolute;
+	left: 7px;
+	right: 7px;
+	bottom: 100px;
+	padding: 5px 0px; /* update SortingOpenDefinedSourceBinView internals if changed */
+	background-color: #fff;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	border: 2px solid #0292d1;
+}
+
+.main-screen.images > #source-bin {
+	text-align: center;
+}
+
+.ui-draggable {
+	cursor: pointer;
+}
+
+.ui-draggable.ui-draggable-disabled {
+	cursor: default;
+}
+
+.drag-source {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	margin: 3px 4px; /* defaults: can be overridden in #source-template template */
+}
+
+.drag-source.removed {
+	visibility: hidden;
+}
+
+.drag-source.text {
+	width: 180px;
+	font-size: 20px;
+	line-height: 20px;
+	font-weight: bold;
+}
+
+.main-screen.sentences .drag-source {
+	text-align: left;
+}
+
+.drag-source.image {
+	width: 100px;
+	height: 100px;
+	line-height: 100px;
+	background-color: #fff;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	-webkit-box-shadow: 0px 0px 5px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow:    0px 0px 5px rgba(50, 50, 50, 0.5);
+	box-shadow:         0px 0px 5px rgba(50, 50, 50, 0.5);
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	border: 2px solid #0292d1;
+}
+
+.activity:not(.multi-level) #source-bin {
+	bottom: 72px;
+}
+
+.activity:not(.multi-level) #multi-level-help {
+	display: none;
+}
+
+#levels-switch {
+	position: absolute;
+	left: 31px;
+	top: 462px;
+	width: 94px;
+	height: 86px;
+	background: url('../img/levels_switch.png') no-repeat;
+}
+
+.main-screen.feedback #levels-switch {
+	opacity: 0.75;
+}
+
+.activity:not(.multi-level) #levels-switch {
+	display: none;
+}
+
+#levels-switch > a {
+	position: absolute;
+	display: block;
+	width: 26px;
+	height: 50px;
+	top: 4px;
+}
+
+.main-screen:not(.feedback) #levels-switch > a {
+	cursor: pointer;
+}
+
+#level0-btn {
+	left: 3px;
+}
+
+#level1-btn {
+	left: 34px;
+}
+
+#level2-btn {
+	left: 65px;
+}
+
+#levels-slider {
+	position: absolute;
+	top: 60px;
+	width: 35px;
+	height: 32px;
+	background: url('../img/slider_btn.png') no-repeat;
+}
+
+.main-screen:not(.feedback) #levels-slider {
+	cursor: pointer;
+}
+
+#levels-slider.level0 {
+	left: 0px;
+}
+
+#levels-slider.level1 {
+	left: 30px;
+}
+
+#levels-slider.level2 {
+	left: 60px;
+}
+
+#reset-btn {
+	position: absolute;
+	display: block;
+	left: 836px;
+	top: 491px;
+	width: 80px;
+	height: 42px;
+	background: url('../img/reset_btn.png') no-repeat 0 0;
+	cursor: pointer;
+}
+
+html.no-touch .main-screen:not(.feedback) #reset-btn:hover {
+	background-position: 0 -42px;
+}
+
+#ok-btn {
+	position: absolute;
+	display: block;
+	left: 920px;
+	top: 491px;
+	width: 80px;
+	height: 42px;
+	background: url('../img/ok_btn.png') no-repeat 0 0;
+	cursor: pointer;
+}
+
+#ok-btn.disabled {
+	opacity: 0.75;
+	cursor: default;
+}
+
+html.no-touch .main-screen:not(.feedback) #ok-btn:not(.disabled):hover {
+	background-position: 0 -42px;
+}
+
+.main-screen.feedback a {
+	opacity: 0.75;
+	cursor: default !important;
+}
