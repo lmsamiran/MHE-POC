@@ -137,6 +137,8 @@
         };
 
         $scope.nextClick = function () {
+			angular.element(".slide-section").hide();
+			angular.element(".slide-section").slideDown('slow');
             if ($scope.allQuestions.length - 1 === $scope.currentIndex) {
                 $scope.nextClickDisabled = true;
             } else {

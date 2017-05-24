@@ -22,6 +22,7 @@
     <script src="js/libs/angular-route.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" type="text/css" />
     <script src="js/libs/jquery-ui.js"></script>
+	<script src="js/jquery.ui.touch-punch.min.js"></script>
     <script src="js/libs/xml2json.js"></script>
     <script src="js/libs/angular-sanitize.js"></script>
     <script src="./bootstrap/js/bootstrap.min.js"></script>
@@ -50,22 +51,24 @@
             <div class="container">
                 <div class="direction" ng-bind-html="directions"></div>
                 <div class="content">
-                    <section class="answer-section">
-                        <div class="col-xs-15" ng-repeat="qstn in qstnSets">
-                            <div droppable id="droppableBin{{$index}}" class="answer-box droppable" ng-class="{'right':$last}" tabindex="0">
-                                <div class="content-title" ng-bind-html="qstn.title"></div>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </section>
-                    <div class="clearfix"></div>
-                    <div class="input-texts col-md-12">
-                        <span class="droppable droppable-initial" ng-repeat="option in options" id="droppable{{$index}}" rel={{$index}}>
-                              <span class="draggable"  id="draggable{{$index}}" ng-bind-html="option" tabindex="0" rel={{$index}}>
-                                <!--<span ></span>-->
-                        </span>
-                        </span>
-                    </div>
+					<div class="slide-section">
+						<section class="answer-section">
+							<div class="col-xs-15" ng-repeat="qstn in qstnSets">
+								<div droppable id="droppableBin{{$index}}" class="answer-box droppable" ng-class="{'right':$last}" tabindex="0">
+									<div class="content-title" ng-bind-html="qstn.title"></div>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</section>
+						<div class="clearfix"></div>
+						<div class="input-texts col-md-12">
+							<span class="droppable droppable-initial" ng-repeat="option in options" id="droppable{{$index}}" rel={{$index}}>
+								  <span class="draggable"  id="draggable{{$index}}" ng-bind-html="option" tabindex="0" rel={{$index}}>
+									<!--<span ></span>-->
+							</span>
+							</span>
+						</div>
+					</div>
                     <div class="clearfix"></div>
                     <section class="button-section">
                         <button class="reset-button button" ng-click="reset()"></button>
