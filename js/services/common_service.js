@@ -1,6 +1,6 @@
 (function (module) {
 
-    function sortAppCommonService($http, $rootScope) {
+    function sortAppCommonService($http, $rootScope, mhePocConstants) {
         var self = this;
 
         this.initService = function () {
@@ -47,7 +47,7 @@
         this.onDrop = function (event, ui) {
             var $this = accessFlag === true ? $(document.activeElement) : $(this);
 
-            if ($this[0].id.indexOf(names[2]) > -1) {
+            if ($this[0].id.indexOf(mhePocConstants.droppableBin) > -1) {
                 numberOfChildrenPresent = $this.children().length + 1;
             }
 
@@ -65,7 +65,7 @@
                         topPos = 1;
                         stackTop = pos.top;
                     }
-                    if ($this[0].classList.contains(names[3])) {
+                    if ($this[0].classList.contains(mhePocConstants.droppableInitial)) {
                         pos.top += ui.draggable.height() * 1.5;
                         dropPos[ui.draggable[0].id] = 0;
                     }
@@ -96,20 +96,23 @@
                             if (!selectedOptions[$this[0].id]) {
                                 selectedOptions[$this[0].id] = [];
                             }
-                            for (var i in selectedOptions) {
-                                for (var j = 0; j < selectedOptions[i].length; j++) {
-                                    if (selectedOptions[i][j] === ui.draggable[0]) {
-                                        selectedOptions[i].splice(j, 1);
-                                        break;
-                                    }
-                                }
-                            }
+                            self.removeFromSelectedOptions(ui.draggable[0]);
+
+                            // for (var i in selectedOptions) {
+                            //     for (var j = 0; j < selectedOptions[i].length; j++) {
+                            //         if (selectedOptions[i][j] === ui.draggable[0]) {
+                            //             selectedOptions[i].splice(j, 1);
+                            //             break;
+                            //         }
+                            //     }
+                            // }
+
                             selectedOptions[$this[0].id].push(ui.draggable[0]);
                             console.log(selectedOptions);
                             numberOfChildrenPresent = 0;
                             var total = self.getLengthOfOptions();
-                            $rootScope.$broadcast("checkToEnable",{
-                                totalLength:total
+                            $rootScope.$broadcast("checkToEnable", {
+                                totalLength: total
                             });
                             //console.log(total);
                         }
@@ -117,23 +120,54 @@
                 }
             });
             self.reAlignFunction();
-           // $rootScope.$broadcast("");
-          // var total =  self.getLengthOfOptions();
-           //  console.log(total);
+            // $rootScope.$broadcast("");
+            // var total =  self.getLengthOfOptions();
+            //  console.log(total);
         };
+
+        this.removeFromSelectedOptions = function (elm) {
+            for (var i in selectedOptions) {
+                for (var j = 0; j < selectedOptions[i].length; j++) {
+                    if (selectedOptions[i][j] === elm) {
+                        selectedOptions[i].splice(j, 1);
+                        break;
+                    }
+                }
+            }
+        };
+
         this.getLengthOfOptions = function () {
-            var totalLength=0;
-            for(var i in selectedOptions){
+            var totalLength = 0;
+            for (var i in selectedOptions) {
                 totalLength = totalLength + selectedOptions[i].length;
                 //console.log(selectedOptions[i].length);
             }
             // console.log(totalLength);
-             return totalLength;
+            return totalLength;
         };
+
+        this.draggableAccs = function (e) {
+            if (e.keycode === 32 || e.which === 32) {
+                accessFlag = true;
+                dragElement = document.activeElement;
+                var dragElemId = $(document.activeElement).attr('rel');
+                angular.element('.draggable').attr('tabindex', '-1');
+                angular.element('.answer-box').eq(0).focus();
+                if ($(dragElement).parents().hasClass('answer-box')) {
+                    for (var i = 0; i < angular.element('.droppable').length; i++) {
+                        if (angular.element('.droppable').eq(i).attr('rel') === dragElemId) {
+                            angular.element('.droppable').eq(i).attr('tabindex', 0);
+                            break;
+                        }
+                    }
+                }
+            }
+        };
+
         this.initService();
     }
 
-    sortAppCommonService.$inject = ["$http", "$rootScope"];
+    sortAppCommonService.$inject = ["$http", "$rootScope", "mhePocConstants"];
 
     angular.module(sortApp).service("sortAppCommonService", sortAppCommonService);
 

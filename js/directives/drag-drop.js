@@ -8,7 +8,7 @@ var stackTop;
 var selectedOptions = {};
 var dragElement, accessFlag = false,
     fitToContainer = false;
-angular.module(sortApp).directive('draggable', function () {
+angular.module(sortApp).directive('draggable', function (sortAppCommonService) {
     return {
         restrict: 'C',
         scope: false,
@@ -16,7 +16,7 @@ angular.module(sortApp).directive('draggable', function () {
             element.draggable({
                 revert: "invalid"
             });
-            element.off('keydown').on('keydown', draggableAccs);
+            element.off('keydown').on('keydown', sortAppCommonService.draggableAccs);
         }
     };
 });
@@ -52,7 +52,7 @@ angular.module(sortApp).directive('droppable', function ($compile, sortAppCommon
                     var ui = {
                         draggable: $(dragElement)
                     };
-                    onDrop(e, ui);
+                    sortAppCommonService.onDrop(e, ui);
                     accessFlag = false;
                     angular.element('.draggable').attr('tabindex', '0');
                     angular.element('.droppable').attr('tabindex', '-1');
@@ -62,22 +62,23 @@ angular.module(sortApp).directive('droppable', function ($compile, sortAppCommon
         }
     };
 });
-var draggableAccs = function (e) {
-    if (e.keycode === 32 || e.which === 32) {
-        accessFlag = true;
-        dragElement = document.activeElement;
-        var dragElemId = $(document.activeElement).attr('rel');
-        angular.element('.draggable').attr('tabindex', '-1');
-        angular.element('.answer-box').eq(0).focus();
-        if ($(dragElement).parents().hasClass('answer-box')) {
-            for (var i = 0; i < angular.element('.droppable').length; i++) {
-                if (angular.element('.droppable').eq(i).attr('rel') === dragElemId) {
-                    angular.element('.droppable').eq(i).attr('tabindex', 0);
-                    break;
-                }
-            }
-        }
-    }
-}
+
+// var draggableAccs = function (e) {
+//     if (e.keycode === 32 || e.which === 32) {
+//         accessFlag = true;
+//         dragElement = document.activeElement;
+//         var dragElemId = $(document.activeElement).attr('rel');
+//         angular.element('.draggable').attr('tabindex', '-1');
+//         angular.element('.answer-box').eq(0).focus();
+//         if ($(dragElement).parents().hasClass('answer-box')) {
+//             for (var i = 0; i < angular.element('.droppable').length; i++) {
+//                 if (angular.element('.droppable').eq(i).attr('rel') === dragElemId) {
+//                     angular.element('.droppable').eq(i).attr('tabindex', 0);
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+// }
 
 

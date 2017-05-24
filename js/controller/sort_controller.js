@@ -1,34 +1,33 @@
-window.globalScope = null;
-
 (function (module) {
     'use strict';
 
-    function sortController($scope, sortAppCommonService, $rootScope) {
-        window.globalScope = $scope;
+    function sortController($scope, sortAppCommonService, $rootScope, mhePocConstants) {
         $scope.currentIndex = 0;
+        $scope.prevClickDisabled = true;
+        $scope.nextClickDisabled = false;
+
         $scope.init = function () {
             $scope.qstnData = null;
             $scope.qstnSets = [];
             $scope.title = "";
             $scope.directions = "";
             $scope.options = [];
-            $scope.prevClickDisabled = true;
-            $scope.nextClickDisabled = false;
             $scope.wrongAnswers = [];
             $scope.disableValidate = true;
         };
 
-        $scope.loadData = function (index) {
+        $scope.loadData = function () {
             $scope.qstnData = sortAppCommonService.getData().sorting_open_defined;
-            console.log($scope.qstnData);
             $scope.title = $scope.qstnData.title;
             $scope.directions = $scope.qstnData.directions;
             $scope.allQuestions = $scope.qstnData.levels.level.rounds.round;
             $scope.prepareQuestionSet($scope.currentIndex);
             $scope.makeOptions();
         };
+
         $scope.resetThisElement = function (element) {
-            var id = element.split(names[0])[1];
+            //@TODO need to be refactored
+            var id = element.split(mhePocConstants.draggableClass)[1];
             var ansBox = "#droppable" + id;
             var dragItem = "draggable" + id;
             var dragItemId = "#" + dragItem;
@@ -41,7 +40,6 @@ window.globalScope = null;
                     ans.style.top = stackTop + "px";
                     if (dropPos[dragItem].left >= $(window).innerWidth() / 3.25) {
                         ans.style.left = dropPos[dragItem].left / 3.25 + "px";
-                        // ans.style.left = $(dragItemId).getBoundingClientRect().left;
                     } else {
                         ans.style.left = dropPos[dragItem].left + "px";
                     }
@@ -49,13 +47,15 @@ window.globalScope = null;
                     ans.style.top = dropPos[dragItem].top + "px";
                     ans.style.left = dropPos[dragItem].left + "px";
                 }
-
             }
-
             $(dragItemId).remove();
             $(ansBox).append(ans);
+            $scope.animateAndDraggable(angular.element(ans));
+        };
 
-            $(ans).animate({
+        $scope.animateAndDraggable = function (elm) {
+
+            elm.animate({
                 display: "inline",
                 position: "relative",
                 top: "0px",
@@ -64,10 +64,11 @@ window.globalScope = null;
                 easing: "linear",
                 duration: 500,
                 complete: function () {
-                    $(ans).draggable();
+                    elm.draggable();
                 }
             });
         };
+
 
         $scope.prepareQuestionSet = function (index) {
             var bins = $scope.allQuestions[index].screens.item.bins.bin;
@@ -77,13 +78,12 @@ window.globalScope = null;
                     options: $scope.getOptions(bins[i].contents.item)
                 });
             }
-            console.log($scope.qstnSets);
         };
 
         $scope.validate = function () {
-            for (var i in selectedOptions) {
-                var idx = parseInt(i[i.length - 1], 10);
-                $scope.optionsToRevert($scope.qstnSets[idx].options, selectedOptions[i]);
+            for (var key in selectedOptions) {
+                var idx = parseInt(key[key.length - 1], 10);
+                $scope.optionsToRevert($scope.qstnSets[idx].options, selectedOptions[key]);
             }
         };
 
@@ -99,20 +99,18 @@ window.globalScope = null;
                 if (!!elm) {
                     console.log(angular.element(elm).attr("id"), angular.element(elm).text());
                     $scope.resetThisElement(angular.element(elm).attr("id"));
-                    for (var i in selectedOptions) {
-                        for (var j = 0; j < selectedOptions[i].length; j++) {
-                            if (selectedOptions[i][j] === elm) {
-                                selectedOptions[i].splice(j, 1);
-                                break;
-                            }
-                        }
-                    }
+                    sortAppCommonService.removeFromSelectedOptions(elm);
+                    // for (var i in selectedOptions) {
+                    //     for (var j = 0; j < selectedOptions[i].length; j++) {
+                    //         if (selectedOptions[i][j] === elm) {
+                    //             selectedOptions[i].splice(j, 1);
+                    //             break;
+                    //         }
+                    //     }
+                    // }
                 }
             })
-            
-            console.log(selectedOptions);
-            // console.log(answers);
-        }
+        };
 
 
         $scope.getOptions = function (item) {
@@ -124,7 +122,6 @@ window.globalScope = null;
                     tempArr.push(item[i].text);
                 }
             }
-
             return tempArr;
         };
 
@@ -136,7 +133,6 @@ window.globalScope = null;
                     $scope.options.push(elm);
                 });
             }
-            console.log($scope.options);
         };
 
         $scope.nextClick = function () {
@@ -149,6 +145,7 @@ window.globalScope = null;
                 $scope.nextClickDisabled = false;
             }
         };
+
         $scope.prevClick = function () {
             if ($scope.currentIndex === 0) {
                 $scope.prevClickDisabled = true;
@@ -159,21 +156,24 @@ window.globalScope = null;
                 $scope.prevClickDisabled = false;
             }
         };
+
         $scope.reset = function () {
             $rootScope.$broadcast("reset");
         };
-        $scope.shouldEnabelOk = function (event,args) {
+
+        $scope.shouldEnabelOk = function (event, args) {
             console.log(args.totalLength);
-            if($scope.options.length === args.totalLength){
+            if ($scope.options.length === args.totalLength) {
                 $scope.disableValidate = false;
             }
         };
+
         $scope.init();
         $scope.$on("dataUpdated", $scope.loadData);
         $scope.$on("checkToEnable", $scope.shouldEnabelOk);
     };
 
-    sortController.$inject = ["$scope", "sortAppCommonService", "$rootScope"];
+    sortController.$inject = ["$scope", "sortAppCommonService", "$rootScope", "mhePocConstants"];
     angular.module(module).controller("sortController", sortController);
 
 })(sortApp);
