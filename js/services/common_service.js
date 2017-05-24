@@ -1,6 +1,6 @@
 (function (module) {
 
-    function sortAppCommonService($http, sortAppDataFactory, $rootScope) {
+    function sortAppCommonService($http, $rootScope) {
         var self = this;
 
         this.initService = function () {
@@ -25,7 +25,7 @@
         };
         this.getData = function () {
             return self.parsedData;
-        }
+        };
 
         this.reAlignFunction = function () {
             $(".droppable").each(function () {
@@ -45,21 +45,12 @@
         };
 
         this.onDrop = function (event, ui) {
-            // console.log(angular.element(event.target).attr("class"),ui);
-            if (angular.element(event.target).attr("class").indexOf("input-texts") > -1) {
-                console.log("call revert");
-                console.log(ui.draggable.position());
-                fitToContainer = true;
-                //scope.resetThisElement(ui.draggable.attr("id"));
-                //return;
-            }
             var $this = accessFlag === true ? $(document.activeElement) : $(this);
-            // $this.append(ui.draggable);
+
             if ($this[0].id.indexOf(names[2]) > -1) {
                 numberOfChildrenPresent = $this.children().length + 1;
             }
 
-            // numberOfChildrenPresent = dropCount[ $this[ 0 ].id ];
             ui.draggable.position({
                 my: "center",
                 at: position,
@@ -90,7 +81,7 @@
                                     "display": "block",
                                     "position": "relative",
                                     "top": 0,
-                                    "left": 0,
+                                    "left": 0
                                 });
                             } else {
                                 ui.draggable.css({
@@ -116,15 +107,33 @@
                             selectedOptions[$this[0].id].push(ui.draggable[0]);
                             console.log(selectedOptions);
                             numberOfChildrenPresent = 0;
+                            var total = self.getLengthOfOptions();
+                            $rootScope.$broadcast("checkToEnable",{
+                                totalLength:total
+                            });
+                            //console.log(total);
                         }
                     });
                 }
             });
             self.reAlignFunction();
+           // $rootScope.$broadcast("");
+          // var total =  self.getLengthOfOptions();
+           //  console.log(total);
+        };
+        this.getLengthOfOptions = function () {
+            var totalLength=0;
+            for(var i in selectedOptions){
+                totalLength = totalLength + selectedOptions[i].length;
+                //console.log(selectedOptions[i].length);
+            }
+            // console.log(totalLength);
+             return totalLength;
         };
         this.initService();
     }
-    sortAppCommonService.$inject = ["$http", "sortAppDataFactory", "$rootScope"];
+
+    sortAppCommonService.$inject = ["$http", "$rootScope"];
 
     angular.module(sortApp).service("sortAppCommonService", sortAppCommonService);
 

@@ -19,7 +19,6 @@ window.globalScope = null;
         };
 
         $scope.loadData = function (index) {
-            // $scope.currentIndex = typeof index === "number" ? index : $scope.currentIndex;
             $scope.qstnData = sortAppCommonService.getData().sorting_open_defined;
             console.log($scope.qstnData);
             $scope.title = $scope.qstnData.title;
@@ -65,7 +64,6 @@ window.globalScope = null;
                 easing: "linear",
                 duration: 500,
                 complete: function () {
-                    // location.reload();
                     $(ans).draggable();
                 }
             });
@@ -87,7 +85,8 @@ window.globalScope = null;
                 var idx = parseInt(i[i.length - 1], 10);
                 $scope.optionsToRevert($scope.qstnSets[idx].options, selectedOptions[i]);
             }
-        }
+        };
+
         $scope.optionsToRevert = function (options, answers) {
             for (var i = 0; i <= options.length; i++) {
                 for (var j = 0; j <= answers.length; j++) {
@@ -127,7 +126,7 @@ window.globalScope = null;
             }
 
             return tempArr;
-        }
+        };
 
         $scope.makeOptions = function () {
             var option;
@@ -138,7 +137,7 @@ window.globalScope = null;
                 });
             }
             console.log($scope.options);
-        }
+        };
 
         $scope.nextClick = function () {
             if ($scope.allQuestions.length - 1 === $scope.currentIndex) {
@@ -149,7 +148,7 @@ window.globalScope = null;
                 $scope.loadData();
                 $scope.nextClickDisabled = false;
             }
-        }
+        };
         $scope.prevClick = function () {
             if ($scope.currentIndex === 0) {
                 $scope.prevClickDisabled = true;
@@ -159,13 +158,19 @@ window.globalScope = null;
                 $scope.loadData();
                 $scope.prevClickDisabled = false;
             }
-        }
+        };
         $scope.reset = function () {
             $rootScope.$broadcast("reset");
-        }
-
+        };
+        $scope.shouldEnabelOk = function (event,args) {
+            console.log(args.totalLength);
+            if($scope.options.length === args.totalLength){
+                $scope.disableValidate = false;
+            }
+        };
         $scope.init();
         $scope.$on("dataUpdated", $scope.loadData);
+        $scope.$on("checkToEnable", $scope.shouldEnabelOk);
     };
 
     sortController.$inject = ["$scope", "sortAppCommonService", "$rootScope"];
