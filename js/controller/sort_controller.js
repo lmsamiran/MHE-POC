@@ -50,6 +50,7 @@
             }
             $(dragItemId).remove();
             $(ansBox).append(ans);
+            angular.element('.draggable').off('keydown').on('keydown',sortAppCommonService.draggableAccs);
             $scope.animateAndDraggable(angular.element(ans));
         };
 

@@ -46,6 +46,7 @@
 
         this.onDrop = function (event, ui) {
             var $this = accessFlag === true ? $(document.activeElement) : $(this);
+            console.log($this,'asdasd')
 
             if ($this[0].id.indexOf(mhePocConstants.droppableBin) > -1) {
                 numberOfChildrenPresent = $this.children().length + 1;
@@ -149,7 +150,7 @@
         this.draggableAccs = function (e) {
             if (e.keycode === 32 || e.which === 32) {
                 accessFlag = true;
-                dragElement = document.activeElement;
+                dragElement = document.activeElement;console.log(dragElement,'service');
                 var dragElemId = $(document.activeElement).attr('rel');
                 angular.element('.draggable').attr('tabindex', '-1');
                 angular.element('.answer-box').eq(0).focus();
