@@ -220,6 +220,12 @@ header {
 	height: 30px;
 	padding-top: 5px;
 }
+.pagination button.arrow-next:disabled{
+	background:url('../images/img/arrow_disabled.png') no-repeat;
+}
+.pagination button.arrow:disabled:hover{
+	background-position-y: 0;
+}
 .pagination button.arrow:hover, .pagination a.arrow-next:hover:enabled {
 	background-position-y: -31px;
 }
@@ -299,6 +305,7 @@ button.cross-button {
 .reward-wrapp, .reward-wrapp img{ border-radius:0 0 4px 4px;}
 .video-container{ position:relative; padding:20px 8px 8px 8px;}
 .video-top{ background:url(../images/img/top-bg.png) repeat-x 0 0;  height:4px; position:absolute; left:0; top:10px; width:100%;}
+.slide-data{min-height:347px;}
 /*.ok-button:disabled, button.ok-button[disabled]{
     display:block;     background: url(../images/img/go_on_btn.png) no-repeat; background-position:0 5px;
 }

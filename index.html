@@ -51,6 +51,7 @@
             <div class="container">
                 <div class="direction" ng-bind-html="directions"></div>
                 <div class="content">
+					<div class="slide-data">
 					<div class="slide-section">
 						<section class="answer-section">
 							<div class="col-xs-15" ng-repeat="qstn in qstnSets">
@@ -67,9 +68,11 @@
 									<!--<span ></span>-->
 							</span>
 							</span>
-						</div>
+						</div>	
 					</div>
-                    <div class="clearfix"></div>
+					<div class="clearfix"></div>
+					</div>
+                    
                     <section class="button-section">
                         <button class="reset-button button" ng-click="reset()"></button>
                         <button class="ok-button" ng-click="validate()" ng-disabled=""></button>
