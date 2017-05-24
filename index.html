@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sorting</title>
+
+    <link rel="stylesheet" href="css/bootstrap.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Arvo:400,400i,700,700i|Open+Sans:400,600,700,800" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="js/libs/jquery-1.12.4.js"></script>
+    <script src="js/libs/angular.js"></script>
+    <script src="js/libs/angular-route.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script src="js/libs/jquery-ui.js"></script>
+    <script src="js/libs/xml2json.js"></script>
+    <script src="js/libs/angular-sanitize.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/sorting.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/factory/data_factory.js"></script>
+    <script src="js/services/common_service.js"></script>
+    <script src="js/controller/sort_controller.js"></script>
+    <script src="js/directives/drag-drop.js"></script>
+    <script src="js/directives/popup.js"></script>
+</head>
+
+<body ng-app="sortApp">
+    <div class="main-container fill" ng-controller="sortController">
+        <header class="header-wrapper">
+            <div class="container">
+                <div class="header-logo"><img src="./images/img/logo.png"></div>
+                <div class="header-title" ng-bind-html="title"></div>
+                <div class="header-icon">
+                    <button class="help-button open-modal" modalType="video" data-toggle="modal1" data-target="#videoModal1"></button>
+                    <button class="cross-button"></button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </header>
+        <main class="main-wrapper">
+            <div class="container">
+                <div class="direction" ng-bind-html="directions"></div>
+                <div class="content">
+                    <section class="answer-section">
+                        <div class="col-xs-15" ng-repeat="qstn in qstnSets">
+                            <div droppable id="droppableBin{{$index}}" class="answer-box droppable" ng-class="{'right':$last}" tabindex="0">
+                                <div class="content-title" ng-bind-html="qstn.title"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </section>
+                    <div class="clearfix"></div>
+                    <div class="input-texts col-md-12">
+                        <span class="droppable droppable-initial" ng-repeat="option in options" id="droppable{{$index}}" rel={{$index}}>
+                              <span class="draggable"  id="draggable{{$index}}" ng-bind-html="option" tabindex="0" rel={{$index}}>
+                                <!--<span ></span>-->
+                        </span>
+                        </span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <section class="button-section">
+                        <button class="reset-button button" ng-click="reset()"></button>
+                        <button class="ok-button button" ng-click="validate()" ng-disabled=""></button>
+                    </section>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </main>
+        <footer class="footer-wrapper">
+            <div class="btm-bg"></div>
+            <div class="container">
+                <div class="pagination">
+                    <button href="#" class="arrow" ng-click="prevClick()" ng-disabled="prevClickDisabled">&nbsp;</button>
+                    <div ng-repeat="qstnSet in allQuestions" ng-class="{'active':currentIndex === $index}">&nbsp;</div>
+                    <button href="#" class="arrow-next" ng-click="nextClick()" ng-disabled="nextClickDisabled">&nbsp;</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </footer>
+        <div class="modal fade" id="videoModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <pop-up></pop-up>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            resize_fun();
+        });
+        $(window).resize(function () {
+            resize_fun();
+        })
+        window.onorientationchange = function () {
+            resize_fun();
+        }
+
+        function resize_fun() {
+            var window_height = $(window).innerHeight();
+            var header_height = $(".header-wrapper").innerHeight();
+            var footer_height = $(".footer-wrapper").innerHeight();
+            var cont_height = window_height - (header_height + footer_height)
+            $(".main-wrapper").height(cont_height);
+        }
+    </script>
+
+
+</body>
+
+</html>
